@@ -29,7 +29,7 @@ public class PersonaService implements IPersonaService {
     public int save(Persona p) {
        int res=0;
          Persona per=dao.save(p);
-            if(!per.equals(null)) {
+            if(!per.equals(null)) { // si no es nulo es porque se guardo
                 res=1;
             }
         return res;

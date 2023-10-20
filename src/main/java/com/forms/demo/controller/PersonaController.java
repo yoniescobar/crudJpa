@@ -17,37 +17,41 @@ public class PersonaController {
     @Autowired
     private IPersonaService service;
 
-    @GetMapping("/listar")
+    @GetMapping({"/","/listar"}) // http://localhost:8080/listar
     public String listar(Model model) {
         model.addAttribute("personas", service.listar());
-        return "index";
+        return "index.html";
     }
     @GetMapping("/listar/{id}")
     public String listarId(@PathVariable int id, Model model) {
         model.addAttribute("persona", service.listarId(id));
-        return "form";
+        return "form.html";
     }
 
     @GetMapping("/new")
     public String nuevo(Model model) {
         model.addAttribute("persona", new Persona());
-        return "form";
+        return "form.html";
     }
 
+    @GetMapping("/edit/{id}")
+    public String editar(@PathVariable int id, Model model) {
+        model.addAttribute("persona", service.listarId(id));
+        return "form.html";
+    }
     @PostMapping("/save")
     public String save(Persona p, Model model) {
-        int id = service.save(p);
+        int id = service.save(p); // si es 0 es porque no se guardo y si es 1 es porque se guardo
         if (id == 0) {
-            return "form";
+            return "form.html";
         }
         return "redirect:/listar";
     }
 
     @GetMapping("/delete/{id}")
-    public String eliminar(@PathVariable int id, Model model) {
+    public String delete(@PathVariable int id, Model model) {
         service.delete(id);
         return "redirect:/listar";
     }
-
 
 }
